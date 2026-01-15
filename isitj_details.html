@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis Details — IS IT Journalism?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #faf8f5;
+      --border-dark: #1a1a1a;
+      --accent-blue: #2563eb;
+      --accent-red: #dc2626;
+      --text-dark: #1a1a1a;
+      --text-muted: #6b7280;
+      --highlight-yellow: #fef3c7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Source Serif Pro', Georgia, serif;
+      background: var(--bg-cream);
+      color: var(--text-dark);
+      line-height: 1.65;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 40px 48px 48px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .site-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* Article Reference */
+    .article-ref {
+      background: #f9fafb;
+      border-left: 3px solid var(--accent-red);
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 13px;
+    }
+
+    .article-ref-title {
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .article-ref-source {
+      color: var(--text-muted);
+    }
+
+    .article-ref-source a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    /* Summary Section */
+    .summary-section {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 24px 28px;
+      margin-bottom: 36px;
+    }
+
+    .summary-label {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent-red);
+      margin-bottom: 12px;
+    }
+
+    .summary-verdict {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+
+    .summary-text {
+      font-size: 15px;
+      color: #374151;
+    }
+
+    /* Detail Sections */
+    .detail-section {
+      margin-bottom: 32px;
+    }
+
+    .detail-section:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .section-number {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .finding-list {
+      margin: 12px 0 12px 20px;
+      font-size: 15px;
+    }
+
+    .finding-list li {
+      margin-bottom: 6px;
+    }
+
+    blockquote {
+      background: var(--highlight-yellow);
+      border-left: 3px solid #f59e0b;
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .emphasis {
+      font-weight: 600;
+    }
+
+    /* Bottom Line Section */
+    .bottom-line {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 2px solid var(--border-dark);
+    }
+
+    .bottom-line h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .category-errors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 24px;
+      margin: 16px 0;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 14px;
+    }
+
+    .category-error {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .error-from {
+      color: var(--text-muted);
+    }
+
+    .error-arrow {
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    .error-to {
+      font-weight: 600;
+    }
+
+    .final-verdict {
+      background: #1a1a1a;
+      color: white;
+      padding: 16px 20px;
+      border-radius: 4px;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 14px;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="site-title">IS IT Journalism?</span>
+    </header>
+
+    <div class="article-ref">
+      <div class="article-ref-title">Class Action Lawsuit Against Chobani Claims Yogurt Includes Toxic Chemicals</div>
+      <div class="article-ref-source">Delish.com &#8212; <a href="https://www.delish.com/food-news/a69597608/class-action-lawsuit-against-chobani/" target="_blank">View Original Article</a></div>
+    </div>
+
+    <section class="summary-section">
+      <div class="summary-label">Summary Conclusion</div>
+      <div class="summary-verdict">This Delish article is not accurate journalism.</div>
+      <p class="summary-text">It frames a dismissed false-advertising lawsuit as a food-safety scare, misrepresents the underlying PlasticList findings, and uses toxicological language ("toxic chemicals") that neither the lawsuit nor the cited report supports. The piece is best described as click-optimized brand-fear content, not reporting in any ordinary journalistic sense.</p>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-number">Finding 1</div>
+      <h2>Mischaracterization of the Lawsuit</h2>
+      <p>The Delish article repeatedly implies a food safety allegation, yet the lawsuit is explicitly about <span class="emphasis">false advertising</span>, not harm or unsafe exposure:</p>
+      <ul class="finding-list">
+        <li>The plaintiff alleges she would not have purchased the yogurt if she had known about trace phthalates&#8212;not that the yogurt caused harm</li>
+        <li>No unsafe dose is alleged</li>
+        <li>No injury is alleged</li>
+        <li>No regulatory violation is alleged</li>
+        <li>The case was already indicated for dismissal by the court</li>
+      </ul>
+      <p>Delish mentions dismissal of the year-old lawsuit only briefly and late, after establishing the "toxic chemicals" narrative. This sequencing is editorially backwards and misleading.</p>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-number">Finding 2</div>
+      <h2>"Toxic Chemicals" Claim Is Scientifically Unsupported</h2>
+      <p>Delish states:</p>
+      <blockquote>"The chemicals found in the yogurt are known to cause adverse health effects."</blockquote>
+      <p>This statement is toxicologically meaningless without dose, context, or exposure pathway. The PlasticList authors explicitly warn readers not to draw safety conclusions:</p>
+      <ul class="finding-list">
+        <li>"The mere presence of a chemical in food does not automatically suggest harm."</li>
+        <li>"All of the foods we tested are safe to eat according to FDA, EPA, and EFSA standards"</li>
+        <li>Results are nanogram-scale, background-level contaminants found in nearly all foods tested, including organic and farm-direct products</li>
+      </ul>
+      <p>Calling nanogram-level detection "toxic" without establishing a dose-harm relationship is scientifically incorrect.</p>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-number">Finding 3</div>
+      <h2>PlasticList Explicitly Rejects Delish's Framing</h2>
+      <p>PlasticList takes deliberate steps to avoid panic framing:</p>
+      <ul class="finding-list">
+        <li>Requires readers to acknowledge a "don't freak out" disclaimer before viewing data</li>
+        <li>States findings are not grounds for changing purchasing decisions</li>
+        <li>Emphasizes uncertainty, sampling limits, and lack of harm inference</li>
+        <li>Distinguishes molecular contaminants from microplastics, which Delish implicitly conflates</li>
+      </ul>
+      <p>Delish extracts the existence of phthalates while discarding every contextual qualifier supplied by the source. That is selective quotation, not reporting.</p>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-number">Finding 4</div>
+      <h2>Brand Amplification + Fear Leverage = Clickbait Mechanics</h2>
+      <p>Editorial signals strongly indicate engagement-first intent:</p>
+      <ul class="finding-list">
+        <li>Heavy use of a trusted health-forward brand (Chobani) in headline and imagery</li>
+        <li>"Toxic chemicals" language repeated despite no such allegation in the lawsuit</li>
+        <li>Inclusion of other major brands (Coca-Cola, Gerber, Starbucks) without new reporting</li>
+        <li>Reliance on a year-old dataset, repackaged as "news"</li>
+        <li>Emotional trigger targeting parents and health-conscious consumers</li>
+      </ul>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-number">Finding 5</div>
+      <h2>Is Delish Still "Legitimate Media"?</h2>
+      <p>Delish is formally a Hearst-owned outlet, but this article crosses a line:</p>
+      <ul class="finding-list">
+        <li>It fails basic accuracy standards</li>
+        <li>It misrepresents both legal and scientific sources</li>
+        <li>It creates a false public-health implication</li>
+        <li>It does not correct the central false impression</li>
+      </ul>
+      <p>The precise answer: <span class="emphasis">Delish is a lifestyle media brand that increasingly publishes click-optimized pseudo-news content.</span> This article is an example of that failure. To say "this article distorted the truth beyond recognition" is justified by the text.</p>
+    </section>
+
+    <section class="bottom-line">
+      <h2>Bottom Line</h2>
+      <p>Calling this "journalism" is a category error:</p>
+      <div class="category-errors">
+        <div class="category-error">
+          <span class="error-from">False advertising</span>
+          <span class="error-arrow">&#8594;</span>
+          <span class="error-to">reframed as food safety</span>
+        </div>
+        <div class="category-error">
+          <span class="error-from">Detection</span>
+          <span class="error-arrow">&#8594;</span>
+          <span class="error-to">reframed as toxicity</span>
+        </div>
+        <div class="category-error">
+          <span class="error-from">Dismissed case</span>
+          <span class="error-arrow">&#8594;</span>
+          <span class="error-to">framed as breaking alarm</span>
+        </div>
+        <div class="category-error">
+          <span class="error-from">Careful science</span>
+          <span class="error-arrow">&#8594;</span>
+          <span class="error-to">stripped of context</span>
+        </div>
+      </div>
+      <div class="final-verdict">That is not journalism in the substantive sense, regardless of the masthead.</div>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Is It Journalism?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #faf8f5;
+      --border-dark: #1a1a1a;
+      --accent-blue: #2563eb;
+      --accent-red: #dc2626;
+      --text-dark: #1a1a1a;
+      --text-muted: #6b7280;
+      --meter-rage: #7f1d1d;
+      --meter-fear: #dc2626;
+      --meter-click: #f97316;
+      --meter-farm: #eab308;
+      --meter-lifestyle: #84cc16;
+      --meter-interest: #22c55e;
+      --meter-quality: #059669;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: var(--bg-cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 2px dashed var(--accent-red);
+      border-radius: 4px;
+      padding: 24px 32px;
+      background: white;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .btn-outline {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 20px;
+      border: 2px solid var(--border-dark);
+      border-radius: 24px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: var(--border-dark);
+      color: white;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    /* Input Section */
+    .input-section {
+      margin-bottom: 24px;
+    }
+
+    .url-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .url-row label {
+      font-weight: 600;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .url-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: 'Source Sans Pro', sans-serif;
+      color: var(--accent-blue);
+    }
+
+    .btn-clear {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: var(--accent-red);
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    /* Article Content Box */
+    .article-content-wrapper {
+      position: relative;
+    }
+
+    .article-content-box {
+      width: 100%;
+      height: 280px;
+      padding: 16px 20px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 4px;
+      background: white;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-dark);
+      resize: vertical;
+    }
+
+    /* Always show scrollbar */
+    .article-content-box::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    .article-content-box::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .article-content-box::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 6px;
+      border: 2px solid #f1f1f1;
+    }
+
+    .article-content-box::-webkit-scrollbar-thumb:hover {
+      background: #a1a1a1;
+    }
+
+    /* Firefox scrollbar */
+    .article-content-box {
+      scrollbar-width: thin;
+      scrollbar-color: #c1c1c1 #f1f1f1;
+    }
+
+    .article-section-tag {
+      display: inline-block;
+      background: #f3f4f6;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      margin-bottom: 12px;
+    }
+
+    .article-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+
+    .article-subhead {
+      font-style: italic;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .article-byline {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .article-image {
+      width: 5.5in;
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .article-image-credit {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 14px;
+    }
+
+    .article-url {
+      font-size: 12px;
+      color: var(--accent-blue);
+      word-break: break-all;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .article-bullets {
+      background: #f9fafb;
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    .article-bullets ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .article-bullets li {
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .article-bullets li:last-child {
+      margin-bottom: 0;
+    }
+
+    .article-body p {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .article-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .clear-btn-positioned {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 16px;
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    /* Results Section */
+    .results-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    /* Meter Panel */
+    .meter-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 20px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .meter-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .gauge-container {
+      flex: 1;
+    }
+
+    .gauge-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .gauge {
+      position: relative;
+      width: 100%;
+      max-width: 220px;
+      margin: 0 auto;
+    }
+
+    .gauge svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .gauge-label {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--meter-fear);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      background: white;
+      padding: 4px 12px;
+      border: 1.5px solid var(--meter-fear);
+      border-radius: 4px;
+    }
+
+    /* Reputation Bar */
+    .reputation-container {
+      width: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .reputation-bar {
+      flex: 1;
+      width: 36px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      position: relative;
+      min-height: 140px;
+      overflow: hidden;
+    }
+
+    .reputation-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to top, #84cc16, #a3e635);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .reputation-marker {
+      position: absolute;
+      bottom: 50%;
+      left: -4px;
+      right: -4px;
+      height: 4px;
+      background: var(--border-dark);
+      border-radius: 2px;
+    }
+
+    .reputation-labels {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: -85px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 4px 0;
+      width: 80px;
+    }
+
+    .rep-label {
+      font-size: 9px;
+      color: var(--text-muted);
+      line-height: 1.2;
+    }
+
+    .rep-label.active {
+      font-weight: 700;
+      color: var(--border-dark);
+    }
+
+    .reputation-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 8px;
+      white-space: nowrap;
+    }
+
+    /* Details Button */
+    .details-btn-container {
+      display: flex;
+      justify-content: center;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+      margin-top: 4px;
+    }
+
+    /* Indicators Panel */
+    .indicators-panel {
+      padding: 20px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .indicators-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .source-badge {
+      display: inline-block;
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      color: #92400e;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .finding-list {
+      list-style: none;
+    }
+
+    .finding-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .finding-list li::before {
+      content: "✗";
+      position: absolute;
+      left: 0;
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    .finding-summary {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Legend */
+    .legend {
+      margin-top: 24px;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .legend-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .legend-scale {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .legend-item {
+      flex: 1;
+      text-align: center;
+      padding: 6px 4px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .legend-item.rage { background: var(--meter-rage); }
+    .legend-item.fear { background: var(--meter-fear); }
+    .legend-item.click { background: var(--meter-click); }
+    .legend-item.farm { background: var(--meter-farm); color: var(--text-dark); }
+    .legend-item.lifestyle { background: var(--meter-lifestyle); color: var(--text-dark); }
+    .legend-item.interest { background: var(--meter-interest); }
+    .legend-item.quality { background: var(--meter-quality); }
+
+    /* Modal Popup */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-container {
+      background: white;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      background: #fafafa;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--accent-red);
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      background: #b91c1c;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: #c1c1c1 #f1f1f1;
+    }
+
+    .modal-body::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 6px;
+      border: 2px solid #f1f1f1;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 70vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <button class="btn-outline">About</button>
+      <h1>Is It Journalism?</h1>
+      <button class="btn-outline">Donate</button>
+    </header>
+
+    <section class="input-section">
+      <div class="url-row">
+        <label>Source URL</label>
+        <input type="text" class="url-input" value="https://www.delish.com/food-news/a69597608/class-action-lawsuit-against-chobani/" readonly>
+        <button class="btn-clear">✕</button>
+      </div>
+
+      <div class="article-content-wrapper">
+        <div class="article-content-box">
+          <span class="article-section-tag">Food News</span>
+          
+          <h2 class="article-headline">Class Action Lawsuit Against Chobani Claims Yogurt Includes Toxic Chemicals</h2>
+          
+          <p class="article-subhead">So much for "only natural ingredients."</p>
+          
+          <p class="article-byline">By Amanda Mactas · PUBLISHED: DEC 02, 2025 5:25 PM EST</p>
+          
+          <img src="chobani_image.jpeg" alt="Chobani Greek Yogurt products on store shelf" class="article-image">
+          <p class="article-image-credit">Eugene Gologursky — Getty Images</p>
+          
+          <a href="https://www.delish.com/food-news/a69597608/class-action-lawsuit-against-chobani/" class="article-url">https://www.delish.com/food-news/a69597608/class-action-lawsuit-against-chobani/</a>
+          
+          <div class="article-bullets">
+            <ul>
+              <li>A class action lawsuit has been filed against Chobani for false advertising.</li>
+              <li>The lawsuit claims that testing shows the presence of toxic chemicals in its yogurt, while the company advertises that its products contain only natural ingredients.</li>
+              <li>The chemicals found in the yogurt are known to cause adverse health effects.</li>
+            </ul>
+          </div>
+          
+          <div class="article-body">
+            <p><strong>Chobani</strong> is the latest <strong>food brand under fire</strong> after a class-action lawsuit. The lawsuit, which was brought by a California resident who purchased the brand's nonfat plain <strong>Greek yogurt</strong> in 2023, alleges that the company has misled consumers through false advertising. According to the suit, third-party testing found man-made plastic chemicals in the brand's products, while the company advertises its yogurt as containing "only natural ingredients."</p>
+            
+            <p>The testing, conducted by <strong>PlasticList</strong>, found that Chobani yogurt contained four types of phthalates—a chemical used in plastics known to have adverse health effects, including negative impacts on reproductive health, disruption of the endocrine system, and even the potential to cause cancer. The testing suggests that the presence of these chemicals is likely due to the yogurt's plastic containers, which leach into the product over time.</p>
+            
+            <p>The plaintiff claims she would not have purchased the yogurt if she had known it contained phthalates. The lawsuit seeks to represent all U.S. residents who have purchased either Chobani nonfat plain Greek yogurt or Chobani whole milk plain Greek yogurt, along with similar products, within the statute of limitations.</p>
+            
+            <p>However, when asked to comment on the litigation, the company stated, "Chobani has moved to dismiss the allegations raised by plaintiff Wysocki as they lack merit. In a hearing held in August, the court indicated it will dismiss the case in a formal order. As we have always maintained, our products include only natural ingredients. We are looking forward to the court's decision."</p>
+            
+            <p>While the lawsuit only pertains to Chobani, unfortunately, other very popular brands were found to contain phthalates through PlasticList's testing. You may want to do a deep dive into your favorite products from Ghirardelli, Coca-Cola, Starbucks, and Gerber, too (just to name a few).</p>
+          </div>
+        </div>
+        <button class="btn-clear clear-btn-positioned">✕</button>
+      </div>
+
+      <button class="btn-primary">Click to Analyze</button>
+    </section>
+
+    <section class="results-section">
+      <div class="meter-panel">
+        <div class="meter-row">
+          <div class="gauge-container">
+            <div class="gauge-title">Content Integrity Scale</div>
+            <div class="gauge">
+              <svg viewBox="0 0 200 120">
+                <!-- Gauge background segments -->
+                <path d="M 20 100 A 80 80 0 0 1 37 52" stroke="#7f1d1d" stroke-width="16" fill="none" stroke-linecap="round"/>
+                <path d="M 40 48 A 80 80 0 0 1 70 25" stroke="#dc2626" stroke-width="16" fill="none"/>
+                <path d="M 73 23 A 80 80 0 0 1 100 20" stroke="#f97316" stroke-width="16" fill="none"/>
+                <path d="M 103 20 A 80 80 0 0 1 130 23" stroke="#eab308" stroke-width="16" fill="none"/>
+                <path d="M 133 25 A 80 80 0 0 1 160 48" stroke="#84cc16" stroke-width="16" fill="none"/>
+                <path d="M 163 52 A 80 80 0 0 1 180 100" stroke="#22c55e" stroke-width="16" fill="none" stroke-linecap="round"/>
+                
+                <!-- Needle pointing to FEAR BAIT position -->
+                <g transform="rotate(-50, 100, 100)">
+                  <line x1="100" y1="100" x2="100" y2="35" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="100" cy="100" r="8" fill="#1a1a1a"/>
+                  <circle cx="100" cy="100" r="4" fill="white"/>
+                </g>
+              </svg>
+              <div class="gauge-label">Fear Bait</div>
+            </div>
+          </div>
+
+          <div class="reputation-container">
+            <div class="gauge-title">Source Reputation</div>
+            <div class="reputation-bar">
+              <div class="reputation-fill"></div>
+              <div class="reputation-marker"></div>
+              <div class="reputation-labels">
+                <span class="rep-label">Trusted Source</span>
+                <span class="rep-label">Established</span>
+                <span class="rep-label active">Lifestyle Brand</span>
+                <span class="rep-label">Questionable</span>
+                <span class="rep-label">Unknown</span>
+              </div>
+            </div>
+            <div class="reputation-title">Reputation</div>
+          </div>
+        </div>
+
+        <div class="details-btn-container">
+          <button class="btn-outline" onclick="openDetails()">Details</button>
+        </div>
+      </div>
+
+      <div class="indicators-panel">
+        <div class="indicators-title">Analysis Findings</div>
+        <div class="source-badge">Delish.com — Hearst Media (Lifestyle)</div>
+        <ul class="finding-list">
+          <li>Fails basic accuracy standards</li>
+          <li>Misrepresents both legal and scientific sources</li>
+          <li>Creates false public-health implication</li>
+          <li>Does not correct central false impression</li>
+          <li>Repackages year-old data as breaking news</li>
+        </ul>
+        <div class="finding-summary">
+          <strong>Classification:</strong> Site is a former Hearst-owned news outlet that has become a lifestyle media brand publishing click-optimized pseudo-news content. This article reframes a dismissed false-advertising lawsuit as a food-safety scare.
+        </div>
+      </div>
+    </section>
+
+    <div class="legend">
+      <div class="legend-title">Content Integrity Scale Legend</div>
+      <div class="legend-scale">
+        <div class="legend-item rage">Rage Bait</div>
+        <div class="legend-item fear">Fear Bait</div>
+        <div class="legend-item click">Click Bait</div>
+        <div class="legend-item farm">Content Farm</div>
+        <div class="legend-item lifestyle">Lifestyle</div>
+        <div class="legend-item interest">Interest</div>
+        <div class="legend-item quality">Quality</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Popup for Details -->
+  <div class="modal-overlay" id="detailsModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <span class="modal-title">Analysis Details</span>
+        <button class="modal-close" onclick="closeDetails()">✕</button>
+      </div>
+      <div class="modal-body">
+        <iframe src="isitj_details.html" title="Analysis Details"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openDetails() {
+      document.getElementById('detailsModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetails() {
+      document.getElementById('detailsModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('detailsModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeDetails();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeDetails();
+      }
+    });
+  </script>
+</body>
+</html>
