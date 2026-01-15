@@ -1,4 +1,4 @@
-# isitj aka Is It Journalism?  
+# IsItJ aka Is It Journalism?  
 
 ### Is It Journalism dot org Mockup
 
